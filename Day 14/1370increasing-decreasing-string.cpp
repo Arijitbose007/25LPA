@@ -1,26 +1,36 @@
 class Solution {
 public:
     string sortString(string s) {
-        std::array<int, 26> table{0};
-        for (const char c : s) {
-            ++table[c - 'a'];
-        }
+        unordered_map<char,int>mp;
+        string res = "";
+        sort(s.begin(),s.end());
+        for(auto nums : s)
+            mp[nums]++;
+        bool found = true;
+        while(found)
+        {
+                found = false;
 
-        std::string answer;
-        while (answer.length() < s.length()) {
-            for (int i = 0; i < table.size(); ++i) {
-                if (table[i] > 0) {
-                    answer += 'a' + i;
-                    --table[i];
+            for(char i = 'a' ; i <= 'z' ; i++)
+            {
+                if(mp[i])
+                {
+                    res.push_back(i);
+                    mp[i]--;
+                    found = true;
                 }
             }
-            for (int i = table.size() - 1; i >= 0; --i) {
-                if (table[i] > 0) {
-                    answer += 'a' + i;
-                    --table[i];
+            for(char i = 'z' ; i >= 'a' ; i--)
+            {
+                
+                if(mp[i])
+                {
+                    res.push_back(i);
+                    mp[i]--;
+                    found = true;
                 }
             }
         }
-        return answer;
+    return res;
     }
 };
